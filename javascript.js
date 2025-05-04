@@ -42,9 +42,14 @@ document.addEventListener("DOMContentLoaded", function () {
         contentDiv.className = 'content';
         contentDiv.textContent = text;
 
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit_btn';
+        editBtn.textContent = 'Edit';
+
         cancelButton.appendChild(cancelSpan);
         itemDiv.appendChild(cancelButton);
         itemDiv.appendChild(checkboxInput);
+        itemDiv.appendChild(editBtn);
         itemDiv.appendChild(contentDiv);
         app_body.appendChild(itemDiv);
         input_box.value='';
@@ -60,15 +65,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    app_body.addEventListener("click", function (event) {
-        if (event.target.className === 'material-symbols-outlined cancel') {
-            var parentnode = event.target.parentNode.parentNode;
-            parentnode.remove();
+    app_body.addEventListener('click', function (event) {
+        const target = event.target;
+    
+        if (target.classList.contains('cancel')) {
+            const taskItem = target.closest('.item');
+            if (taskItem) taskItem.remove();
             save();
-        } else if (event.target.className === 'chk_box') {
+    
+        } else if (target.classList.contains('chk_box')) {
             save();
+    
+        } else if (target.classList.contains('edit_btn')) {
+            const taskItem = target.closest('.item');
+            const contentDiv = taskItem.querySelector('.content');
+    
+            if (target.textContent === 'Edit') {
+                // Switch to editable input
+                const input = document.createElement('textarea');
+               // input.type = 'text';
+                input.value = contentDiv.textContent;
+                input.className = 'edit_input';
+                input.style.display='block';
+    
+                taskItem.replaceChild(input, contentDiv);
+                target.textContent = 'Save';
+            } else {
+                // Save changes
+                const input = taskItem.querySelector('.edit_input');
+                const newContent = document.createElement('div');
+                newContent.className = 'content';
+                newContent.textContent = input.value;
+    
+                taskItem.replaceChild(newContent, input);
+                target.textContent = 'Edit';
+                save();
+            }
         }
     });
+    
 
     show();
 });
