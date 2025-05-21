@@ -117,4 +117,18 @@ body{
     transition:all 0.7s;
 }
 
+#filter {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #4caf50;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    cursor: pointer;
+    margin-left:20px;
+    margin-bottom: 20px;
+    transition: all 0.2s ease-in-out;
+  }
+  
 
+  

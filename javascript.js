@@ -2,6 +2,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const add_btn = document.getElementById("add_btn");
     const input_box = document.getElementById("input1");
     const app_body = document.getElementById("app_body");
+    const filter = document.getElementById('filter');
+
+    filter.addEventListener('change', () => {
+        const filterValue = filter.value;
+        const tasks = app_body.querySelectorAll('.item');
+      
+        tasks.forEach(task => {
+          const checkbox = task.querySelector('input[type="checkbox"]');
+          const isCompleted = checkbox && checkbox.checked;
+      
+          if (filterValue === 'all') {
+            task.style.display = 'block';
+          } else if (filterValue === 'completed') {
+            task.style.display = isCompleted ? 'block' : 'none';
+          } else if (filterValue === 'uncompleted') {
+            task.style.display = !isCompleted ? 'block' : 'none';
+          }
+        });
+      });
 
     function save() {
         const tasks = [];
